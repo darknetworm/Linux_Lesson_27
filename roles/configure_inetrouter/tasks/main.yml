@@ -1,0 +1,19 @@
+---
+  - name: Enable masquerade
+    iptables:
+      table: nat
+      chain: POSTROUTING
+      out_interface: enp0s3
+      jump: MASQUERADE
+  - name: Enable forwarding
+    iptables:
+      chain: FORWARD
+      in_interface: enp0s8
+      out_interface: enp0s3
+      jump: ACCEPT
+  - name: Allow established and related
+    iptables:
+      chain: FORWARD
+      match: state
+      ctstate: ESTABLISHED,RELATED
+      jump: ACCEPT
