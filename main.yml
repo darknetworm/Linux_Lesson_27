@@ -1,0 +1,83 @@
+---
+  - name: Task for all routers
+    hosts: routers
+    become: true
+    
+    pre_tasks:
+    - name: Install packages
+      apt:
+        name:
+        - traceroute
+        - tcpdump
+        state: latest
+        update_cache: true
+    - name: Stop firewall
+      systemd:
+        name: ufw
+        state: stopped
+        enabled: false
+    - name: Enable forwarding
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: "1"
+        state: present
+
+  - name: Configure internet router
+    hosts: inetRouter
+    become: true
+    roles:
+      - role: configure_inetrouter
+
+  - name: Configure central router
+    hosts: centralRouter
+    become: true
+    roles:
+      - role: configure_centralrouter
+
+  - name: Configure office1 router
+    hosts: office1Router
+    become: true
+    roles:
+      - role: configure_office1router
+
+  - name: Configure office2 router
+    hosts: office2Router
+    become: true
+    roles:
+      - role: configure_office2router
+
+  - name: Tasks for all servers
+    hosts: servers
+    become: true
+
+    pre_tasks:
+    - name: Install packages
+      yum:
+        name:
+        - traceroute
+        - tcpdump
+        - nano
+        state: latest
+        update_cache: true
+    - name: Disable default route
+      lineinfile:
+        dest: /etc/sysconfig/network-scripts/ifcfg-eth0
+        line: DEFROUTE=NO
+
+  - name: Configure central server
+    hosts: centralServer
+    become: true
+    roles:
+      - role: configure_centralserver
+
+  - name: Configure office1 server
+    hosts: office1Server
+    become: true
+    roles:
+      - role: configure_office1server
+
+  - name: Configure office2 server
+    hosts: office2Server
+    become: true
+    roles:
+      - role: configure_office2server
