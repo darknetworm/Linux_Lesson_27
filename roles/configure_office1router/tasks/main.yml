@@ -1,0 +1,26 @@
+---
+  - name: Delete default route
+    blockinfile:
+      path: /etc/netplan/50-cloud-init.yaml
+      insertafter: '            dhcp4: true'
+      block: |
+        #Disable default route
+                    dhcp4-overrides:
+                        use-routes: false
+  - name: Add default route
+    blockinfile:
+      path: /etc/netplan/50-vagrant.yaml
+      insertafter: '      - 192.168.255.10/30'
+      block: |
+        #Insert default route
+              routes:
+                - to: 0.0.0.0/0
+                  via: 192.168.255.9
+  - name: Apply netplan
+    shell: netplan apply
+  - name: Enable masquerade
+    iptables:
+      table: nat
+      chain: POSTROUTING
+      out_interface: enp0s8
+      jump: MASQUERADE
