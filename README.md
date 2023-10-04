@@ -48,7 +48,7 @@ centralServer: маршрут по умолчанию 192.168.0.1, доступ 
 ![central](https://github.com/darknetworm/Linux_Lesson_27/assets/82410807/9816ccdc-32e4-44dd-b4e2-b174a74f6781)
 
 office1Server: маршрут по умолчанию 192.168.2.129, доступ к серверам centralServer и office2Server имеется, маршрут до сервера в сети интернет проходит через inetRouter.  
-![office1](https://github.com/darknetworm/Linux_Lesson_27/assets/82410807/3f30a25f-4a0b-4b59-9a3c-1d6c9d767b27)
+![office1](https://github.com/darknetworm/Linux_Lesson_27/assets/82410807/7945027e-bebd-4a39-9017-d49712b0660c)
 
 office2Server: маршрут по умолчанию 192.168.1.1, доступ к серверам centralServer и office1Server имеется, маршрут до сервера в сети интернет проходит через inetRouter.
 ![office2](https://github.com/darknetworm/Linux_Lesson_27/assets/82410807/935eaa11-cc77-4e90-84b5-b5dda523881b)
